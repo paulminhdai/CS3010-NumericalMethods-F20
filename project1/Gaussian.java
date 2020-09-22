@@ -21,16 +21,16 @@ import java.io.File;
 
 public class Gaussian {
 
-    public static void gaussianElimination(double [][] m) {
-        int n = m.length;
+    public static void gaussianElimination(double [][] matrix) {
+        int n = matrix.length;
 
         // Find the scale vector and store them in array scale.
         double [] scale = new double[n];
         for(int r=0; r<n; r++) {
             double max = 0;
             for(int c=0; c<n; c++) {
-                if(Math.abs(m[r][c]) > max)
-                    max = Math.abs(m[r][c]); 
+                if(Math.abs(matrix[r][c]) > max)
+                    max = Math.abs(matrix[r][c]); 
             }
             scale[r] = max;
         }
@@ -46,26 +46,26 @@ public class Gaussian {
             //print the matrix
             for(int r=0; r<n; r++) {
                 for(int c=0; c<n+1; c++) {
-                    System.out.printf("%6.2f",m[r][c]);
+                    System.out.printf("%6.2f",matrix[r][c]);
                 }
                 System.out.printf("%n");
             }
 
             
-            pivot(m, n, i, scale); // call pivot funtion to calculate scaled pivot and max
+            pivot(matrix, n, i, scale); // call pivot funtion to calculate scaled pivot and max
 
             // Eliminate each row 
             for(int row=i+1; row<n; row++) {
-                double div = m[row][i]/m[i][i];
+                double div = matrix[row][i]/matrix[i][i];
                 for(int col=0; col<n+1; col++) {
-                    m[row][col] = (m[row][col] - (m[i][col]*(div)));
+                    matrix[row][col] = (matrix[row][col] - (matrix[i][col]*(div)));
                 }
             }
         }
 
         // Detect infinite solutions (no unique solution)
         try {
-            if(m[n-1][n-1] == 0 && m[n-1][n] == 0)
+            if(matrix[n-1][n-1] == 0 && matrix[n-1][n] == 0)
                 throw new Exception("There's no unique solution");
         }
         catch (Exception e) {
@@ -75,7 +75,7 @@ public class Gaussian {
 
         // Detect no solutions
         try {
-            if(m[n-1][n-1] == 0)
+            if(matrix[n-1][n-1] == 0)
                 throw new Exception("There's no solution");
         }
         catch (Exception e) {
@@ -88,8 +88,8 @@ public class Gaussian {
         for(int i=n-1; i>=0; i--) {
             double add = 0;
             for(int j=i; j<n; j++) {
-                add = add + (m[i][j] * result[j]);
-                result[i] = (m[i][n] - add) / m[i][i];  
+                add = add + (matrix[i][j] * result[j]);
+                result[i] = (matrix[i][n] - add) / matrix[i][i];  
             }
         }
 
@@ -103,7 +103,7 @@ public class Gaussian {
 
     // Pivot function calculate the scaled ratio and swap the rows.
     // Print out the scaled ratio and the selected row.
-    public static void pivot(double [][]m, int n, int i, double [] scale) {
+    public static void pivot(double [][]matrix, int n, int i, double [] scale) {
         double max = -1e100;
         int maxRow = 0;
 
@@ -111,11 +111,11 @@ public class Gaussian {
         for(int coef=i; coef < n; coef++) {
 
             //print out the ratio
-            System.out.printf("%5.2f",Math.abs(m[coef][i]/scale[coef])); // Print each scaled value
+            System.out.printf("%5.2f",Math.abs(matrix[coef][i]/scale[coef])); // Print each scaled value
 
-            if(max < Math.abs(m[coef][i]/scale[coef])) {
+            if(max < Math.abs(matrix[coef][i]/scale[coef])) {
                 maxRow = coef;
-                max = Math.abs(m[coef][i]/scale[coef]);
+                max = Math.abs(matrix[coef][i]/scale[coef]);
             }
         }
         int rowSelected = maxRow + 1;
@@ -128,9 +128,9 @@ public class Gaussian {
         scale[i] = scale[maxRow];
         scale[maxRow] = temp;
         // Swap the row of the matrix
-        double [] temp1 = m[i];
-        m[i] = m[maxRow];
-        m[maxRow] = temp1;
+        double [] temp1 = matrix[i];
+        matrix[i] = matrix[maxRow];
+        matrix[maxRow] = temp1;
         
     }
     
@@ -164,9 +164,9 @@ public class Gaussian {
             try {
                 System.out.println("Enter each equation row by row: ");
 
-                for (int i=0; i<row; i++) {
-                    for (int j=0; j<row+1; j++) {
-                        matrix[i][j] = kb.nextInt();
+                for (int r=0; r<row; r++) {
+                    for (int c=0; c<row+1; c++) {
+                        matrix[r][c] = kb.nextInt();
                     }
                 }
             }
