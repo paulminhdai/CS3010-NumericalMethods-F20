@@ -1,25 +1,15 @@
-/* ==========================================================
-Dai Vuong (Paul)
-CS3010.01
-Sept 30th, 2020
-Prof: Lajpat Rai Raheja
-Gaussian Elimination with the Scaled Partial Pivoting method.
-=============================================================*/
-
 /*
-This program that asks the user for the number of linear equations to solve (let’s say n <=10)
-using the the Gaussian elimination with Scaled Partial Pivoting method.
-Ask the user to first enter the number of equations and then give them the choice 
-to enter the coefficients from the command line (by asking for each row that includes the b value) 
-or have them enter a file name which has the augmented coefficient matrix (including the b values) 
-in a simple text file format
+who: [Your Name]
+what: CS1400.[section]
+when: [date]
+why: [project name]
 */
 
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.File;
 
-public class Gaussian {
+public class test2 {
 
     public static void gaussianElimination(double [][] m) {
         int n = m.length;
@@ -35,10 +25,10 @@ public class Gaussian {
             scale[r] = max;
         }
         // Print out the scale vector
-        System.out.print("\nThe scale vector: (");
+        System.out.print("The scale vector: ");
         for(int s=0; s<n; s++)
-            System.out.printf("%5.2f",scale[s]);
-        System.out.printf(")%n%n");
+            System.out.printf("%6.2f",scale[s]);
+        System.out.printf("%n%n");
         
 
         for(int i=0; i<n; i++) {
@@ -120,7 +110,7 @@ public class Gaussian {
         }
         int rowSelected = maxRow + 1;
         System.out.println(" )");
-        System.out.println("Row " + rowSelected + " is selected as the pivot row."); // Print the selected row
+        System.out.println("row " + rowSelected + " is selected."); // Print the selected row
         System.out.println("\n");
 
         // Swap the scaled pivot array
@@ -140,9 +130,8 @@ public class Gaussian {
         int row = 0;
 
         try {
-            System.out.print("Enter the number of equations: ");
+            System.out.println("Enter the number of equations: ");
             row = kb.nextInt();
-            System.out.println();
         }
         catch (Exception e) {
             System.out.println("Enter the invalid value.");
@@ -152,12 +141,11 @@ public class Gaussian {
 
         int option;
         
-        System.out.println("Do you want to enter the equations in the console or enter a file name? Choose:\n\t1 - enter coefficients equations.\n\t2 - enter file name.");
+        System.out.println("Do you want to enter the equations in the console or enter a file name?\nEnter:\n1 to enter equations.\n2 to enter file name.");
         option = kb.nextInt();
         while (option < 1 || option > 2) {
-            System.out.print("Enter 1 or 2 again to choose options: ");
+            System.out.println("Enter 1 or 2 again to choose options: ");
             option = kb.nextInt();
-            System.out.println();
         }
 
         if (option == 1) { //import equations from console
@@ -171,30 +159,44 @@ public class Gaussian {
                 }
             }
             catch (Exception e) {
-                System.out.println("Invalid value.");
-                System.exit();
+                System.out.println("Enter the invalid value.");
             }
         }
 
         
         if (option == 2) { // import equations from text file
             
-            System.out.print("Enter the file name: ");
-            Scanner read = new Scanner("");
-            try {
-                read = new Scanner(new File(kb.next()));
+            System.out.println("Enter a file.");
+        
+        Scanner readMatrixFile = new Scanner("");
+        try {
+            readMatrixFile = new Scanner(new File(kb.next()));
+            for(int i = 0; i < matrix.length; i++) {
+                for(int j = 0; j < matrix[i].length; j++) {
+                    double coefficient = readMatrixFile.nextDouble();
+                    matrix[i][j] = coefficient;
+                    System.out.println(coefficient + " entered.");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid file or invalid value detected. Check the file and coefficients and try again.");
+            return null;
+        }
+            /*try {
+                Scanner input = new Scanner(new File(fileName));
                 for(int r = 0; r < row; r++) {
                     for(int c = 0; c < row+1; c++) {
-                        matrix[r][c] = read.nextDouble();
+                        if(input.hasNextInt()) {
+                            matrix[r][c] = input.nextInt();
+                        }
                     }
                 }
+                input.close();
             } 
-            catch (Exception e) {
-                System.out.println("An error occurred. Either the file is not found or invalid values.");
+            catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
                 e.printStackTrace();
-                System.exit();
-            }
-            read.close();
+            }*/
         }
         return matrix;
     };
