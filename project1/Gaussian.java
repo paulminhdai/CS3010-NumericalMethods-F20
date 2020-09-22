@@ -172,7 +172,7 @@ public class Gaussian {
             }
             catch (Exception e) {
                 System.out.println("Invalid value.");
-                System.exit();
+                System.exit(0);
             }
         }
 
@@ -192,7 +192,7 @@ public class Gaussian {
             catch (Exception e) {
                 System.out.println("An error occurred. Either the file is not found or invalid values.");
                 e.printStackTrace();
-                System.exit();
+                System.exit(0);
             }
             read.close();
         }
