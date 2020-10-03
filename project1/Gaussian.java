@@ -7,12 +7,12 @@ Gaussian Elimination with the Scaled Partial Pivoting method.
 =============================================================*/
 
 /*
-This program that asks the user for the number of linear equations to solve (let’s say n <=10)
-using the the Gaussian elimination with Scaled Partial Pivoting method.
-Ask the user to first enter the number of equations and then give them the choice 
-to enter the coefficients from the command line (by asking for each row that includes the b value) 
-or have them enter a file name which has the augmented coefficient matrix (including the b values) 
-in a simple text file format
+* This program that asks the user for the number of linear equations to solve (let’s say n <=10)
+* using the the Gaussian elimination with Scaled Partial Pivoting method.
+* Ask the user to first enter the number of equations and then give them the choice 
+* to enter the coefficients from the command line (by asking for each row that includes the b value) 
+* or have them enter a file name which has the augmented coefficient matrix (including the b values) 
+* in a simple text file format
 */
 
 import java.util.Arrays;
@@ -137,27 +137,32 @@ public class Gaussian {
     // Function enter info 
     private static double [][] enterMatrix() {
         Scanner kb = new Scanner(System.in);
-        int row = 0;
+        int row = 2;
 
         try {
             System.out.print("Enter the number of equations: ");
             row = kb.nextInt();
             System.out.println();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Enter the invalid value.");
+            System.exit(0);
         }
 
         double [][] matrix = new double [row][row+1]; // declare matrix
 
-        int option;
+        int option = 1;
         
-        System.out.println("Do you want to enter the equations in the console or enter a file name? Choose:\n\t1 - enter coefficients equations.\n\t2 - enter file name.");
-        option = kb.nextInt();
-        while (option < 1 || option > 2) {
-            System.out.print("Enter 1 or 2 again to choose options: ");
+        try {
+            System.out.println("Do you want to enter the equations in the console or enter a file name? Choose:\n\t1 - enter coefficients equations.\n\t2 - enter file name.");
             option = kb.nextInt();
-            System.out.println();
+            while (option < 1 || option > 2) {
+                System.out.print("Enter 1 or 2 again to choose options: ");
+                option = kb.nextInt();
+                System.out.println();
+            }
+        } catch (Exception e) {
+            System.out.println("Enter the invalid value.");
+            System.exit(0);
         }
 
         if (option == 1) { //import equations from console
@@ -182,7 +187,14 @@ public class Gaussian {
             System.out.print("Enter the file name: ");
             Scanner read = new Scanner("");
             try {
-                read = new Scanner(new File(kb.next()));
+                File file = new File(kb.next());
+
+                while (!file.exists()) {
+                    System.out.print("Enter the file name again: ");
+                    file = new File(kb.next());
+                }
+
+                read = new Scanner(file);
                 for(int r = 0; r < row; r++) {
                     for(int c = 0; c < row+1; c++) {
                         matrix[r][c] = read.nextDouble();
@@ -191,7 +203,6 @@ public class Gaussian {
             } 
             catch (Exception e) {
                 System.out.println("An error occurred. Either the file is not found or invalid values.");
-                e.printStackTrace();
                 System.exit(0);
             }
             read.close();

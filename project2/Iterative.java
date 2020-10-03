@@ -65,10 +65,12 @@ public class Iterative {
             Scanner read = new Scanner("");
             try {
                 File file = new File(kb.next());
+
                 while (!file.exists()) {
                     System.out.print("Enter the file name again: ");
                     file = new File(kb.next());
                 }
+                
                 read = new Scanner(file);
                 for(int r = 0; r < row; r++) {
                     for(int c = 0; c < row+1; c++) {
@@ -92,7 +94,7 @@ public class Iterative {
         int n = matrix.length;
         double [] curr = new double[n]; // current iteration k
         double [] prev = (double[])start.clone(); // previous k-1
-
+        
         System.out.println("\nJacobi method.");
 
         while(true) {
@@ -113,7 +115,7 @@ public class Iterative {
 
             count++;
 
-            boolean cont = true;
+            boolean stopSign = false;
 
             // check for error by using norm l_2
             double numerator = 0;
@@ -122,11 +124,11 @@ public class Iterative {
                 numerator += Math.pow((curr[i]-prev[i]), 2);
                 denominator += Math.pow(curr[i], 2);
             }
-            if ((Math.sqrt(numerator)/Math.sqrt(denominator)) > err)
-                cont = false;
+            if ((Math.sqrt(numerator)/Math.sqrt(denominator)) < err)
+                stopSign = true;
 
             // Check the current hit the 50 iterations or over the error
-            if (cont && count <= REPEAT_MAX)
+            if (stopSign || (count >= REPEAT_MAX))
                 break;
             
             prev = (double[])curr.clone(); // update new current for next iteration
@@ -165,7 +167,7 @@ public class Iterative {
 
             count++;
 
-            boolean cont = true;
+            boolean stopSign = false;
 
             // check for error by using norm l_2
             double numerator = 0;
@@ -175,11 +177,11 @@ public class Iterative {
                 numerator += Math.pow((curr[i]-prev[i]), 2);
                 denominator += Math.pow(curr[i], 2);
             }
-            if ((Math.sqrt(numerator)/Math.sqrt(denominator)) > err)
-                cont = false;
-
+            if ((Math.sqrt(numerator)/Math.sqrt(denominator)) < err)
+                stopSign = true;
+            
             // Check the current hit the 50 iterations or over the error
-            if (cont && count <= REPEAT_MAX)
+            if (stopSign || (count >= REPEAT_MAX))
                 break;
             
             prev = (double[])curr.clone(); // update new current for next iteration
