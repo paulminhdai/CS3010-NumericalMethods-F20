@@ -4,21 +4,15 @@ Write a program that creates a divided difference table from the given data in a
 The sample output of your program for this input file (download the txt file  here
 
 ) should print out the divided difference table and the interpolating polynomial as shown below:
-x                        f[]                    f[ , ]                 f[ , , ]                f[ , , , ]
-
-1                         3                       
-
-                                                      1/2    
-
-3/2                  13/4                                                1/3
-
-                                                      1/6                                                              -2
-
- 0                      3                                                       -5/3
-
-                                                      -2/3
-
- 2                      5/3  
+x|f[]|f[ , ]|f[ , , ]|f[ , , , ]
+-|---|------|--------|----------
+1|3                       
+ | |1/2    
+3/2|13/4| |1/3
+ | | |1/6| |-2
+ 0|3| |-5/3
+ | | -2/3
+ 2|5/3  
 
  
 
