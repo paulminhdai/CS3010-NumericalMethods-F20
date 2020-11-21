@@ -1,4 +1,4 @@
-Programming Project 4
+# Programming Project 4
 Write a program that creates a divided difference table from the given data in a text file and uses that to create the interpolating polynomial. Print the polynomial in both the Newton's form and Lagrange's form.
 
 The sample output of your program for this input file (download the txt file  here
@@ -7,11 +7,11 @@ The sample output of your program for this input file (download the txt file  he
 x|f[]|f[ , ]|f[ , , ]|f[ , , , ]
 -|---|------|--------|----------
 1|3                       
- | |1/2    
+ | | |1/2    
 3/2|13/4| |1/3
  | | |1/6| |-2
  0|3| |-5/3
- | | -2/3
+ | | |-2/3
  2|5/3  
 
  
