@@ -32,6 +32,9 @@ public class FindingRoots {
         }
 
         double prev_c = 0;
+        double prevError = 0;
+        int divergeTracker = 0;
+
         System.out.printf("%3s %9s %9s %9s %9s %9s %9s %9s%n", "n", "a_n", "b_n", "c_n", "f(a_n)", "f(b_n)", "f(c_n)", "error");
         for (int count = 0; count <= iterations_max; count++) {
             double c = (a + b) / 2;
@@ -48,6 +51,14 @@ public class FindingRoots {
                 return;
             }
 
+            // Divergence checker
+            if (error > prevError)
+                divergeTracker += 1;
+            if (divergeTracker > 3) {
+                System.out.println("Divergence.");
+                return;
+            }
+
             if (fc * fa < 0) {
                 b = c;
                 fb = fc;
@@ -57,6 +68,7 @@ public class FindingRoots {
                 fa = fc;
             }
             prev_c = c;
+            prevError = error;
         }
     }
 
@@ -89,6 +101,8 @@ public class FindingRoots {
             double c = (a * fb - b * fa) / (fb - fa);
             double fc = func.func(c);
             double error = Math.abs((c - prev_c) / c);
+            double prevError = 0;
+            int divergeTracker = 0;
 
             if (count == 0)
                 System.out.printf("%3d %9.4f %9.4f %9.4f %9.4f %9.4f %9.4f %9s%n", count, a, b, c, fa, fb, fc, "N/A");
@@ -97,6 +111,14 @@ public class FindingRoots {
 
             if (fc == 0.00 || error < ERROR) {
                 System.out.println();
+                return;
+            }
+
+            // Divergence checker
+            if (error > prevError)
+                divergeTracker += 1;
+            if (divergeTracker > 3) {
+                System.out.println("Divergence.");
                 return;
             }
 
@@ -109,6 +131,7 @@ public class FindingRoots {
                 fa = fc;
             }
             prev_c = c;
+            prevError = error;
         }
     }
 
@@ -130,6 +153,8 @@ public class FindingRoots {
         double x_n = x_init;
         double fx_n = func.func(x_n);
         double fx_n_derv = func.func_der(x_n);
+        double prevError = 0;
+        int divergeTracker = 0;
 
         System.out.printf("%3s %9s %9s %9s %9s %9s %9s%n", "n", "x_n", "fx_n", "f'(x_n)", "x_n+1", "f(x_n+1)", "error");
         for (int count = 1; count <= iterations_max; count++) {
@@ -145,9 +170,18 @@ public class FindingRoots {
                 return;
             }
 
+            // Divergence checker
+            if (error > prevError)
+                divergeTracker += 1;
+            if (divergeTracker > 3) {
+                System.out.println("Divergence.");
+                return;
+            }
+
             x_n = x_n1;
             fx_n = fx_n1;
             fx_n_derv = func.func_der(x_n);
+            prevError = error;
         }
     }
 
@@ -169,6 +203,8 @@ public class FindingRoots {
         double fa = func.func(a);
         double fb = func.func(b);
         double prev_c = 0;
+        double prevError = 0;
+        int divergeTracker = 0;
        
         System.out.printf("%3s %9s %9s %9s %9s %9s %10s %8s%n", "n", "x_n-1", "x_n", "f(x_n-1)", "f(x_n)", "x_n+1", "f(x_n+1)", "error");
         for (int count = 0; count <= iterations_max; count++) {
@@ -185,11 +221,21 @@ public class FindingRoots {
                 System.out.println();
                 return;
             }
+
+            // Divergence checker
+            if (error > prevError)
+                divergeTracker += 1;
+            if (divergeTracker > 3) {
+                System.out.println("Divergence.");
+                return;
+            }
+
             a = b;
             fa = fb;
             b = c;
             fb = fc;
             prev_c = c;
+            prevError = error;
         }
     }
 
@@ -210,6 +256,8 @@ public class FindingRoots {
 
         double fa = func.func(a);
         double prev_b = 0;
+        double prevError = 0;
+        int divergeTracker = 0;
        
         System.out.printf("%3s %9s %9s %9s %10s %8s%n", "n", "x_n", "x_n+1", "f(x_n)", "f(x_n+1)", "error");
         for (int count = 0; count <= iterations_max; count++) {
@@ -222,17 +270,28 @@ public class FindingRoots {
             else
                 System.out.printf("%3d %9.4f %9.4f %9.4f %10.4f %8.4f%n", count, a, b, fa, fb, error);
 
+            
             if (fb == 0.00 || error < ERROR) {
                 System.out.println();
                 return;
             }
+
+            // Divergence checker
+            if (error > prevError)
+                divergeTracker += 1;
+            if (divergeTracker > 3) {
+                System.out.println("Divergence.");
+                return;
+            }
+
             a = b;
             fa = fb;
             prev_b = b;
+            prevError = error;
         }
     }
-
     
+
     public static void main (String args []) {
         float ERROR = (float)0.01;
         int iterations_max = 100;

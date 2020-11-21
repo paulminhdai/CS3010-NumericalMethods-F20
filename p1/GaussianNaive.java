@@ -105,7 +105,7 @@ public class GaussianNaive {
 
                 for (int r=0; r<row; r++) {
                     for (int c=0; c<row+1; c++) {
-                        matrix[r][c] = kb.nextInt();
+                        matrix[r][c] = kb.nextDouble();
                     }
                 }
             }
